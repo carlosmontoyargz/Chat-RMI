@@ -70,13 +70,9 @@ class ServicioChatImpl extends UnicastRemoteObject implements ServicioChat
 		{
 			Receptor c = it.next();
 			try
-			{
-				c.recibirEstado(msg);
-			}
+			{ c.recibirEstado(msg); }
 			catch (RemoteException e)
-			{
-				it.remove();
-			}
+			{ it.remove(); }
 		}
 	}
 }

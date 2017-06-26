@@ -35,11 +35,10 @@ class ClienteChat
 	
 	private void ejecutar()
 			throws RemoteException, NotBoundException, MalformedURLException
-	{
-		Scanner ent = new Scanner(System.in);
-			
+	{	
 		ServicioChat srv = (ServicioChat) Naming.lookup("//localhost:3456/chat");
-
+		
+		Scanner ent = new Scanner(System.in);
 		System.out.print("Ingresar la clave de cifrado: ");
 		String key = ent.nextLine();
 		System.out.print("¿Cual es tu nombre? ");
