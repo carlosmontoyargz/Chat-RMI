@@ -1,7 +1,10 @@
 package cliente;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -58,4 +61,31 @@ public class Encriptador {
 		
         return base64EncryptedString;
     }
+	
+	public static String encriptarCesar(String msg, int d)
+	{
+		byte[] msgBytes = msg.getBytes();
+		for (int i = 0; i < msgBytes.length; i++) msgBytes[i] += d;
+		
+		String msgEncriptado;
+		try { msgEncriptado = new String(msgBytes, "UTF-8"); }
+		catch (UnsupportedEncodingException ex) { msgEncriptado = "";}
+		
+		return msgEncriptado;
+	}
+	
+	public static String desencriptarCesar(String msg, int d)
+	{
+		return encriptarCesar(msg, -d);
+	}
+	
+	public static void main(String[] args)
+	{
+		String msg = "Hola! Esta es una prueba de ciframiento Cesar.";
+		String encrypted = encriptarCesar(msg, 2);
+		String desencrypted = desencriptarCesar(encrypted, 2);
+		
+		System.out.println(encrypted);
+		System.out.println(desencrypted);
+	}
 }
