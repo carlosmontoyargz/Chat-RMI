@@ -40,7 +40,7 @@ class ClienteChat
 		
 		Scanner ent = new Scanner(System.in);
 		System.out.print("Ingresar la clave de cifrado: ");
-		String key = ent.nextLine();
+		int key = Integer.parseInt(ent.nextLine());
 		System.out.print("¿Cual es tu nombre? ");
 		String nombre = ent.nextLine();
 
@@ -51,7 +51,9 @@ class ClienteChat
 		do
 		{
 			msg = ent.nextLine();
-			srv.enviar(c, Encriptador.Encriptar(msg, key));
+			
+			if (!msg.isEmpty())
+				srv.enviar(c, Encriptador.encriptarCesar(msg, key));
 			
 			System.out.print(nombre + "> ");
 		} while (!msg.isEmpty());

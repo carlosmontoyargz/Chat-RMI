@@ -1,89 +1,23 @@
 package cliente;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Base64;
-
-public class Encriptador {
-
-    public static String Encriptar(String texto, String secretKey)
+/**
+ * 
+ * @author carlosmontoya
+ */
+public class Encriptador
+{
+	public static String encriptarCesar(String msg, int clave)
 	{
-        String base64EncryptedString = "";
+		StringBuilder msgCifrado = new StringBuilder(msg.length());
 
-        try
-		{
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
-            byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
+		for (int i = 0; i < msg.length(); i++)
+			msgCifrado.append((char) ((int) (msg.charAt(i)) + clave % 255));
 
-            SecretKey key = new SecretKeySpec(keyBytes, "DESede");
-            Cipher cipher = Cipher.getInstance("DESede");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-
-            byte[] plainTextBytes = texto.getBytes("utf-8");
-            byte[] buf = cipher.doFinal(plainTextBytes);
-            byte[] base64Bytes = Base64.encodeBase64(buf);
-            base64EncryptedString = new String(base64Bytes);
-        }
-		catch (Exception ex)
-		{}
-		
-        return base64EncryptedString;
-    }
-
-    public static String Desencriptar(String textoEncriptado, String secretKey)
-	{
-        String base64EncryptedString = "";
-
-        try
-		{
-            byte[] message = Base64.decodeBase64(textoEncriptado.getBytes("utf-8"));
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
-            byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
-            SecretKey key = new SecretKeySpec(keyBytes, "DESede");
-
-            Cipher decipher = Cipher.getInstance("DESede");
-            decipher.init(Cipher.DECRYPT_MODE, key);
-
-            byte[] plainText = decipher.doFinal(message);
-
-            base64EncryptedString = new String(plainText, "UTF-8");
-        }
-		catch (Exception ex)
-		{}
-		
-        return base64EncryptedString;
-    }
-	
-	public static String encriptarCesar(String msg, int d)
-	{
-		byte[] msgBytes = msg.getBytes();
-		for (int i = 0; i < msgBytes.length; i++) msgBytes[i] += d;
-		
-		String msgEncriptado;
-		try { msgEncriptado = new String(msgBytes, "UTF-8"); }
-		catch (UnsupportedEncodingException ex) { msgEncriptado = "";}
-		
-		return msgEncriptado;
+		return msgCifrado.toString();
 	}
-	
-	public static String desencriptarCesar(String msg, int d)
+
+	public static String desencriptarCesar(String msg, int clave)
 	{
-		return encriptarCesar(msg, -d);
-	}
-	
-	public static void main(String[] args)
-	{
-		String msg = "Hola! Esta es una prueba de ciframiento Cesar.";
-		String encrypted = encriptarCesar(msg, 2);
-		String desencrypted = desencriptarCesar(encrypted, 2);
-		
-		System.out.println(encrypted);
-		System.out.println(desencrypted);
+		return encriptarCesar(msg, -clave);
 	}
 }

@@ -11,9 +11,9 @@ import java.rmi.server.*;
 class ReceptorImpl extends UnicastRemoteObject implements Receptor
 {
 	private final String nombre;
-	private final String key;
+	private final int key;
 	
-	ReceptorImpl(String nombre, String key) throws RemoteException
+	ReceptorImpl(String nombre, int key) throws RemoteException
 	{
 		super();
 		this.nombre = nombre;
@@ -29,7 +29,7 @@ class ReceptorImpl extends UnicastRemoteObject implements Receptor
 	@Override
     public void recibir(String remitente, String m) throws RemoteException
 	{
-		m = Encriptador.Desencriptar(m, key);
+		m = Encriptador.desencriptarCesar(m, key);
         System.out.print("\n" + remitente + "> " + m + "\n" + this.nombre + "> ");
     }
 	
