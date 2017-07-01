@@ -18,7 +18,7 @@ class ReceptorImpl extends UnicastRemoteObject implements Receptor
 		super();
 		this.nombre = nombre;
 		this.key = key;
-    }
+	}
 	
 	@Override
 	public String getNombre() throws RemoteException
@@ -27,11 +27,11 @@ class ReceptorImpl extends UnicastRemoteObject implements Receptor
 	}
 	
 	@Override
-    public void recibir(String remitente, String m) throws RemoteException
+	public void recibir(String remitente, String m) throws RemoteException
 	{
 		m = Encriptador.desencriptarCesar(m, key);
-        System.out.print("\n" + remitente + "> " + m + "\n" + this.nombre + "> ");
-    }
+		System.out.print("\n" + remitente + "> " + m + "\n" + this.nombre + "> ");
+	}
 	
 	@Override
 	public void recibirEstado(String msg) throws RemoteException
